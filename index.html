@@ -9,25 +9,49 @@
     <h1>Contact Us</h1>
     <form id="contactForm">
         <label for="name">Name:</label>
-        <input type="text" id="esmek" name="name" required placeholder="esmek"><br><br>
-        <label for="name">LastName:</label>
-        <input type="text" id="la9abek" name="name" required placeholder="la9abekk"><br><br>
+        <input type="text" id="name" name="name" required><br><br>
         
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required placeholder="email"><br><br>
+        <input type="email" id="email" name="email" required><br><br>
         
         <label for="message">Message:</label>
         <textarea id="message" name="message" required></textarea><br><br>
-
-        <label for="message">arduino:</label>
-        <select id="arduino" name="arduino" required><option value="" disabled="" selected="">Metier avancee mte3ek...</option><option value="Calendar">Calendar</option><option value="Drop Image">Drop Image</option><option value="Maps">Maps</option><option value="Face Recognition">Face Recognition</option><option value="Mailing">Mailing</option></select>
-
-        <label for="message">metier avancee:</label>
-        <select id="profession" name="arduino" required><option value="" disabled="" selected="">Metier avancee mte3ek...</option><option value="Calendar">Calendar</option><option value="Drop Image">Drop Image</option><option value="Maps">Maps</option><option value="Face Recognition">Face Recognition</option><option value="Mailing">Mailing</option></select>
         
-       <input type="submit" value="Submit">
+        <button type="submit">Submit</button>
     </form>
 
-    <script src="telegram.js"></script>
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get form data
+            const formData = new FormData(event.target);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            // Send data to Telegram
+            fetch('https://api.telegram.org/bot<7926821589:AAG3xHU9ndkceXMsCsRYH_xl4AYt2PQCDYU>/sendMessage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: <7065751961>,
+                    text: `New Form Submission:\nName: ${data.name}\nEmail: ${data.email}\nMessage: ${data.message}`,
+                }),
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log('Message sent to Telegram:', result);
+                alert('Form submitted successfully!');
+            })
+            .catch(error => {
+                console.error('Error sending message:', error);
+                alert('An error occurred. Please try again.');
+            });
+        });
+    </script>
 </body>
 </html>
